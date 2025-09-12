@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Sign Up</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="icon" type="image/x-icon" href="images/favicon.ico">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['DM Sans', 'sans-serif'],
+          },
+          colors: {
+            primary: {
+              400: '#00c896',
+              500: '#00b286',
+            },
+            dark: {
+              800: '#1f1f1f',
+              700: '#2a2a2a',
+              600: '#3a3a3a',
+              500: '#4a4a4a',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    .loader {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: #1f1f1f;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      transition: opacity 0.5s ease;
+    }
+
+    .loader.hidden {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .loader-spinner {
+      width: 50px;
+      height: 50px;
+      border: 5px solid rgba(108, 92, 231, 0.2);
+      border-radius: 50%;
+      border-top-color: #00c896;
+      animation: spin 1s ease-in-out infinite;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    /* Smooth transitions for interactive elements */
+    input, button {
+      transition: all 0.2s ease;
+    }
+
+    /* Fix autofill styles */
+    input:-webkit-autofill,
+    input:-webkit-autofill:hover, 
+    input:-webkit-autofill:focus, 
+    input:-webkit-autofill:active {
+      -webkit-box-shadow: 0 0 0 30px #2a2a2a inset !important;
+      -webkit-text-fill-color: #f2f2f2 !important;
+    }
+
+    /* Error message styles */
+    .error-message {
+      display: none;
+      color: #ef4444;
+      font-size: 0.875rem;
+      margin-top: 0.25rem;
+    }
+
+    .input-error {
+      border-color: #ef4444 !important;
+      background-color: rgba(239, 68, 68, 0.05) !important;
+    }
+
+    .success-message {
+      display: none;
+      color: #10b981;
+      font-size: 0.875rem;
+      margin-top: 0.25rem;
+    }
+  </style>
+</head>
+<body class="bg-dark-800 min-h-screen font-sans text-gray-100">
+  <!-- Loader -->
+  <div id="loader" class="loader">
+    <div class="loader-spinner"></div>
+  </div>
+
+  <div class="container mx-auto min-h-screen flex items-center justify-center p-4">
+    <div class="flex flex-col md:flex-row w-full max-w-5xl bg-dark-800 rounded-none overflow-hidden">
+      <!-- Left - Form -->
+      <div class="w-full md:w-1/2 p-8 md:p-10 lg:p-12">
+        <div class="max-w-sm mx-auto">
+          <div class="text-center md:text-left mb-8">
+            <h1 class="text-3xl font-bold mb-2 bg-gradient-to-r from-primary-400 to-emerald-400 bg-clip-text text-transparent">
+              Create Account
+            </h1>
+            <p class="text-gray-400 text-sm">Join our community by filling out the form below</p>
+          </div>
+
+          <form id="signupForm" class="space-y-5">
+            <div>
+              <label for="signupName" class="block text-sm font-medium text-gray-300 mb-2">Full Name</label>
+              <input type="text" id="signupName" placeholder="John Doe"
+                class="w-full px-4 py-3 bg-dark-700 border border-dark-600 rounded-lg focus:outline-none focus:border-primary-400 focus:ring-1 focus:ring-primary-400 placeholder-gray-500 text-sm">
+              <div id="nameError" class="error-message"></div>
+            </div>
+
+            <div>
+              <label for="signupEmail" class="block text-sm font-medium text-gray-300 mb-2">Email Address</label>
+              <input type="email" id="signupEmail" placeholder="your@email.com"
+                class="w-full px-4 py-3 bg-dark-700 border border-dark-600 rounded-lg focus:outline-none focus:border-primary-400 focus:ring-1 focus:ring-primary-400 placeholder-gray-500 text-sm">
+              <div id="emailError" class="error-message"></div>
+            </div>
+
+            <div>
+              <label for="signupPassword" class="block text-sm font-medium text-gray-300 mb-2">Password</label>
+              <input type="password" id="signupPassword" placeholder="••••••••"
+                class="w-full px-4 py-3 bg-dark-700 border border-dark-600 rounded-lg focus:outline-none focus:border-primary-400 focus:ring-1 focus:ring-primary-400 placeholder-gray-500 text-sm">
+              <div id="passwordError" class="error-message"></div>
+              <div class="text-xs text-gray-500 mt-1">Password must be at least 6 characters</div>
+            </div>
+
+            <div class="pt-2">
+              <button type="submit" id="signupButton"
+                class="w-full py-3 px-6 bg-gradient-to-r from-primary-400 to-primary-500 text-dark-800 font-medium rounded-lg transition-all duration-200 hover:opacity-90 flex items-center justify-center">
+                <span id="buttonText">Sign Up</span>
+                <span id="buttonSpinner" class="hidden ml-2">
+                  <i class="fas fa-spinner fa-spin"></i>
+                </span>
+              </button>
+            </div>
+          </form>
+
+          <div id="successMessage" class="success-message mt-4">
+            Account created successfully! Redirecting to dashboard...
+          </div>
+
+          <div class="mt-6 text-center text-sm text-gray-500">
+            Already have an account?
+            <a href="login.html" class="font-medium text-primary-400 hover:text-primary-300 transition-colors">Sign in</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right - Illustration -->
+      <div class="hidden md:block md:w-1/2 from-dark-700 to-dark-800 relative">
+        <div class="absolute inset-0 flex items-center justify-center p-8">
+          <img src="./images/sign-in-dark.svg" alt="Sign Up Illustration"
+            class="w-full h-auto max-h-[70vh] object-contain">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-auth-compat.js"></script>
+
+  <script>
+    // Initialize Firebase
+    const firebaseConfig = {
+      apiKey: "AIzaSyAf0D6UYNfMDdqTccA2xIE92DFz2OcZcgs",
+      authDomain: "skill-bench.firebaseapp.com",
+      projectId: "skill-bench",
+      storageBucket: "skill-bench.appspot.com",
+      messagingSenderId: "875173679194",
+      appId: "1:875173679194:web:026484efde0a5c4e634863",
+      measurementId: "G-XSSV8188KF"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+
+    // Hide loader when page loads
+    window.addEventListener('load', function() {
+      setTimeout(() => {
+        document.getElementById('loader').classList.add('hidden');
+      }, 800);
+    });
+
+    // Form validation and submission
+    document.getElementById('signupForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      signup();
+    });
+
+    function signup() {
+      // Get form values
+      const name = document.getElementById('signupName').value.trim();
+      const email = document.getElementById('signupEmail').value.trim();
+      const password = document.getElementById('signupPassword').value.trim();
+      
+      // Reset error states
+      resetErrors();
+      
+      // Validate inputs
+      let isValid = true;
+      
+      if (!name) {
+        showError('nameError', 'Please enter your full name');
+        document.getElementById('signupName').classList.add('input-error');
+        isValid = false;
+      }
+      
+      if (!email) {
+        showError('emailError', 'Please enter your email address');
+        document.getElementById('signupEmail').classList.add('input-error');
+        isValid = false;
+      } else if (!validateEmail(email)) {
+        showError('emailError', 'Please enter a valid email address');
+        document.getElementById('signupEmail').classList.add('input-error');
+        isValid = false;
+      }
+      
+      if (!password) {
+        showError('passwordError', 'Please enter a password');
+        document.getElementById('signupPassword').classList.add('input-error');
+        isValid = false;
+      } else if (password.length < 6) {
+        showError('passwordError', 'Password must be at least 6 characters');
+        document.getElementById('signupPassword').classList.add('input-error');
+        isValid = false;
+      }
+      
+      if (!isValid) return;
+      
+      // Show loading state
+      document.getElementById('buttonText').textContent = 'Creating account...';
+      document.getElementById('buttonSpinner').classList.remove('hidden');
+      document.getElementById('signupButton').disabled = true;
+      
+      // Create user with Firebase Auth
+      auth.createUserWithEmailAndPassword(email, password)
+        .then((userCredential) => {
+          // Update user profile with display name
+          return userCredential.user.updateProfile({
+            displayName: name
+          });
+        })
+        .then(() => {
+          // Show success message
+          document.getElementById('successMessage').style.display = 'block';
+          
+          // Redirect after delay
+          setTimeout(() => {
+            window.location.href = 'login.html';
+          }, 2000);
+        })
+        .catch((error) => {
+          // Handle errors
+          document.getElementById('buttonText').textContent = 'Sign Up';
+          document.getElementById('buttonSpinner').classList.add('hidden');
+          document.getElementById('signupButton').disabled = false;
+          
+          let errorMessage = 'An error occurred. Please try again.';
+          
+          switch(error.code) {
+            case 'auth/email-already-in-use':
+              errorMessage = 'This email is already registered.';
+              document.getElementById('signupEmail').classList.add('input-error');
+              showError('emailError', errorMessage);
+              break;
+            case 'auth/invalid-email':
+              errorMessage = 'Please enter a valid email address.';
+              document.getElementById('signupEmail').classList.add('input-error');
+              showError('emailError', errorMessage);
+              break;
+            case 'auth/weak-password':
+              errorMessage = 'Password should be at least 6 characters.';
+              document.getElementById('signupPassword').classList.add('input-error');
+              showError('passwordError', errorMessage);
+              break;
+            default:
+              console.error(error);
+              showError('emailError', errorMessage);
+          }
+        });
+    }
+    
+    // Helper functions
+    function showError(elementId, message) {
+      const element = document.getElementById(elementId);
+      element.textContent = message;
+      element.style.display = 'block';
+    }
+    
+    function resetErrors() {
+      document.querySelectorAll('.error-message').forEach(el => {
+        el.style.display = 'none';
+      });
+      document.querySelectorAll('input').forEach(el => {
+        el.classList.remove('input-error');
+      });
+    }
+    
+    function validateEmail(email) {
+      const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      return re.test(email);
+    }
+  </script>
+</body>
+</html>

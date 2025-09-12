@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LearnityX</title>
+    <link rel="icon" type="image/x-icon" href="images/favicon.ico">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #0f0f0f;
+            --primary-color: #00c896;
+            --primary-dark: #00a37d;
+            --text-color: #f5f5f5;
+            --text-light: #e0e0e0;
+            --text-muted: #aaaaaa;
+            --card-bg: #1e1e1e;
+            --card-hover: #2a2a2a;
+            --border-radius: 16px;
+            --box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            min-height: 100vh;
+            line-height: 1.6;
+            padding: 2rem;
+            background-image: 
+                radial-gradient(circle at 25% 25%, rgba(0, 200, 150, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 75% 75%, rgba(0, 150, 200, 0.1) 0%, transparent 50%);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 4rem;
+            position: relative;
+        }
+        
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+            background: linear-gradient(90deg, var(--primary-color), #00e0a8);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            display: inline-block;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            max-width: 700px;
+            margin: 0 auto 1.5rem;
+            line-height: 1.7;
+        }
+        
+        .roadmaps-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2.5rem;
+            margin-top: 2rem;
+        }
+        
+        .roadmap-card {
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 2.5rem 2rem;
+            transition: var(--transition);
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: var(--box-shadow);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .roadmap-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-color), #00e0a8);
+            opacity: 0;
+            transition: var(--transition);
+        }
+        
+        .roadmap-card:hover {
+            transform: translateY(-8px);
+            background: var(--card-hover);
+            box-shadow: 0 12px 40px rgba(0, 200, 150, 0.15);
+        }
+        
+        .roadmap-card:hover::before {
+            opacity: 1;
+        }
+        
+        .card-icon {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+            color: var(--primary-color);
+            transition: var(--transition);
+        }
+        
+        .roadmap-card:hover .card-icon {
+            transform: scale(1.1);
+        }
+        
+        .card-title {
+            font-size: 1.6rem;
+            margin-bottom: 1.2rem;
+            font-weight: 600;
+            color: var(--text-light);
+        }
+        
+        .card-desc {
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+            font-size: 1rem;
+            flex-grow: 1;
+        }
+        
+        .btn {
+            background-color: var(--primary-color);
+            color: #111;
+            border: none;
+            padding: 0.9rem 2rem;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            font-family: 'DM Sans', sans-serif;
+            text-decoration: none;
+            display: inline-block;
+            letter-spacing: 0.5px;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+        
+        .btn::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary-dark), var(--primary-color));
+            z-index: -1;
+            opacity: 0;
+            transition: var(--transition);
+            border-radius: 50px;
+        }
+        
+        .btn:hover {
+            color: #111;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 200, 150, 0.4);
+        }
+        
+        .btn:hover::after {
+            opacity: 1;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 6rem;
+            color: #555;
+            font-size: 0.95rem;
+            padding: 2rem 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+        
+        .social-links a {
+            color: var(--text-muted);
+            font-size: 1.2rem;
+            transition: var(--transition);
+        }
+        
+        .social-links a:hover {
+            color: var(--primary-color);
+            transform: translateY(-2px);
+        }
+        
+        @media (max-width: 768px) {
+            body {
+                padding: 1.5rem;
+            }
+            
+            h1 {
+                font-size: 2.2rem;
+            }
+            
+            .subtitle {
+                font-size: 1rem;
+            }
+            
+            .roadmaps-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+            
+            .roadmap-card {
+                padding: 2rem 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Tech Career Roadmaps</h1>
+            <p class="subtitle">Comprehensive learning paths to guide you through different technology specializations and help you build in-demand skills for the modern tech industry.</p>
+        </header>
+        
+        <div class="roadmaps-grid">
+            <div class="roadmap-card" onclick="window.location.href='./Fullstack/'">
+                <div class="card-icon"><i class="fas fa-code"></i></div>
+                <h3 class="card-title">Full Stack Development</h3>
+                <p class="card-desc">Master both front-end and back-end technologies to build complete web applications from scratch. Learn modern frameworks and deployment.</p>
+                <a class="btn">View Roadmap</a>
+            </div>
+            
+            <div class="roadmap-card" onclick="window.location.href='./AI/'">
+                <div class="card-icon"><i class="fas fa-brain"></i></div>
+                <h3 class="card-title">AI & Machine Learning</h3>
+                <p class="card-desc">Learn the fundamentals of artificial intelligence, machine learning, and data science with Python and popular ML frameworks.</p>
+                <a class="btn">View Roadmap</a>
+            </div>
+            
+            <div class="roadmap-card" onclick="window.location.href='./DSA'">
+                <div class="card-icon"><i class="fas fa-project-diagram"></i></div>
+                <h3 class="card-title">Data Structures & Algorithms</h3>
+                <p class="card-desc">Essential computer science concepts for technical interviews and writing efficient, scalable code. Master problem-solving techniques.</p>
+                <a class="btn">View Roadmap</a>
+            </div>
+            
+            <div class="roadmap-card" onclick="window.location.href='./prompt/'">
+                <div class="card-icon"><i class="fas fa-robot"></i></div>
+                <h3 class="card-title">Prompt Engineering</h3>
+                <p class="card-desc">Master the art of communicating with AI systems to get optimal results. Learn advanced techniques for LLMs and generative AI.</p>
+                <a class="btn">View Roadmap</a>
+            </div>
+        </div>
+        
+        <footer>
+            <p>© 2025 LearnityX. All rights reserved.</p>
+            <div class="social-links">
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-github"></i></a>
+                <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                <a href="#"><i class="fab fa-discord"></i></a>
+            </div>
+        </footer>
+    </div>
+</body>
+</html>

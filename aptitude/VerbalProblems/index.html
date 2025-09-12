@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Verbal Master</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet" />
+<link rel="icon" type="image/x-icon" href="images/favicon.ico">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Verbal Master</h1>
+      <p>Master English usage, comprehension, and vocabulary!</p>
+    </header>
+
+    <div class="current-selection">
+      <span id="selected-topic"><i class="fas fa-book-open"></i> Synonyms and Antonyms</span>
+      <span id="selected-difficulty"><i class="fas fa-bolt"></i> Easy</span>
+    </div>
+
+    <div class="controls">
+      <div class="form-group">
+        <label>Topic:</label>
+        <div class="topic-selector">
+          <div class="topic-option selected" data-value="synonyms">
+            <i class="fas fa-book"></i> Synonyms and Antonyms
+          </div>
+          <div class="topic-option" data-value="fill-blanks">
+            <i class="fas fa-edit"></i> Fill in the Blanks
+          </div>
+          <div class="topic-option" data-value="spot-errors">
+            <i class="fas fa-exclamation-circle"></i> Spotting Errors
+          </div>
+          <div class="topic-option" data-value="comprehension">
+            <i class="fas fa-question-circle"></i> Reading Comprehension
+          </div>
+          <div class="topic-option" data-value="sentence-correction">
+            <i class="fas fa-wrench"></i> Sentence Correction
+          </div>
+          <div class="topic-option" data-value="para-jumbles">
+            <i class="fas fa-random"></i> Para Jumbles
+          </div>
+          <div class="topic-option" data-value="vocabulary">
+            <i class="fas fa-book-reader"></i> Vocabulary
+          </div>
+        </div>
+        <input type="hidden" id="topic" value="synonyms" />
+      </div>
+
+      <div class="form-group">
+        <label>Difficulty:</label>
+        <div class="difficulty-selector">
+          <div class="difficulty-option selected" data-value="easy">
+            <i class="fas fa-smile"></i> Easy
+          </div>
+          <div class="difficulty-option" data-value="medium">
+            <i class="fas fa-meh"></i> Medium
+          </div>
+          <div class="difficulty-option" data-value="hard">
+            <i class="fas fa-frown"></i> Hard
+          </div>
+        </div>
+        <input type="hidden" id="difficulty" value="easy" />
+      </div>
+
+      <button id="generate-btn" class="btn generate-btn">
+        <i class="fas fa-magic"></i> Generate Question
+      </button>
+    </div>
+
+    <div class="question-container hidden">
+      <div class="question-box">
+        <h2><i class="fas fa-question-circle"></i> Question:</h2>
+        <div id="question-output" class="question-output"></div>
+      </div>
+
+      <div class="answer-section hidden">
+        
+        <button id="submit-answer" class="btn submit-btn">
+          <i class="fas fa-paper-plane"></i> Submit Answer
+        </button>
+      </div>
+
+      <div id="feedback-container" class="feedback-container hidden">
+        <div id="explanation" class="explanation hidden">
+          <h4><i class="fas fa-lightbulb"></i> Explanation</h4>
+          <div class="explanation-content"></div>
+        </div>
+      </div>
+    </div>
+
+    <div id="error-container" class="error-container hidden">
+      <i class="fas fa-exclamation-circle"></i> <span class="error-message"></span>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

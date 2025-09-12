@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SQL Practice Platform</title>
+    <link rel="icon" type="image/x-icon" href="images/favicon.ico">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/codemirror.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/theme/dracula.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'DM Sans', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #1f1f1f;
+            color: #e0e0e0;
+        }
+        .container {
+            display: flex;
+            height: 100vh;
+        }
+        .sidebar {
+            width: 300px;
+            background-color: #252525;
+            color: white;
+            padding: 20px;
+            overflow-y: auto;
+            border-right: 1px solid #333;
+        }
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+            background-color: #1f1f1f;
+        }
+        .question-list {
+            margin-top: 20px;
+        }
+        .question-item {
+            padding: 12px 15px;
+            margin-bottom: 10px;
+            background-color: #2d2d2d;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-left: 4px solid transparent;
+        }
+        .question-item:hover {
+            background-color: #363636;
+            transform: translateX(2px);
+        }
+        .question-item.active {
+            background-color: #363636;
+            border-left: 4px solid #00c896;
+        }
+        .question-difficulty {
+            font-size: 12px;
+            margin-top: 6px;
+            font-weight: 500;
+        }
+        .question-difficulty.easy {
+            color: #4caf50;
+        }
+        .question-difficulty.medium {
+            color: #ff9800;
+        }
+        .question-difficulty.hard {
+            color: #f44336;
+        }
+        .question-content {
+            margin-bottom: 20px;
+            background-color: #252525;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .code-editor {
+            flex: 1;
+            margin-bottom: 20px;
+        }
+        .CodeMirror {
+            height: 300px !important;
+            border-radius: 8px;
+            font-size: 14px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .button-group {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+        button {
+            padding: 12px 20px;
+            background-color: #00c896;
+            color: #1f1f1f;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 700;
+            font-family: 'DM Sans', sans-serif;
+            transition: all 0.2s ease;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        button:hover {
+            background-color: #00b386;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        }
+        button:active {
+            transform: translateY(0);
+        }
+        .result-container {
+            background-color: #252525;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .success {
+            color: #4caf50;
+        }
+        .error {
+            color: #f44336;
+        }
+        h1, h2 {
+            margin-top: 0;
+        }
+        h1 {
+            color: #ffffff;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+        h2 {
+            color: #00c896;
+            font-weight: 600;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #333;
+            padding-bottom: 8px;
+        }
+        #question-description, #question-schema {
+            line-height: 1.6;
+        }
+        #question-schema {
+            margin-top: 15px;
+            padding: 15px;
+            background-color: #2d2d2d;
+            border-radius: 6px;
+            font-family: monospace;
+            color: #a0a0a0;
+        }
+        #result-output {
+            font-family: monospace;
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="sidebar">
+            <h2>SQL Questions</h2>
+            <div class="question-list" id="question-list">
+                <!-- Questions will be populated here by JavaScript -->
+            </div>
+        </div>
+        <div class="main-content">
+            <div class="question-content" id="question-content">
+                <h1 id="question-title">Select a question from the sidebar</h1>
+                <div id="question-description"></div>
+                <div id="question-schema"></div>
+            </div>
+            <div class="code-editor">
+                <textarea id="sql-editor">-- Write your SQL query here</textarea>
+            </div>
+            <div class="button-group">
+                <button id="run-button">Run Query</button>
+                <button id="reset-button">Reset Code</button>
+                <button id="show-solution">Show Solution</button>
+            </div>
+            <div class="result-container">
+                <h2>Results</h2>
+                <div id="result-output"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/mode/sql/sql.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/addon/edit/matchbrackets.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.8.0/sql-wasm.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
