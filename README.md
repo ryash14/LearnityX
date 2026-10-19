@@ -4,7 +4,32 @@ LearnityX is a browser learning portal with aptitude exercises, technical roadma
 
 The project organizes practice material into navigable topics instead of exposing a collection of unrelated exercise files. It is useful as a static learning interface and as an example of browser authentication around educational content.
 
-[Quick start](#quick-start) · [How it works](#how-it-works) · [Development](#development) · [Contributing](CONTRIBUTING.md)
+[Preview](#application-preview) · [Quick start](#quick-start) · [Architecture](#architecture-and-request-flow) · [Development](#development) · [Contributing](CONTRIBUTING.md)
+
+## Application preview
+
+![LearnityX learning portal](docs/screenshots/learning-portal.png)
+
+The learning portal groups assessment tracks and links to roadmap material.
+
+<details>
+<summary>LearnityX algebra practice controls</summary>
+
+![LearnityX algebra practice controls](docs/screenshots/algebra-practice.png)
+
+The algebra module lets a learner choose a topic and difficulty before generating an exercise.
+
+</details>
+
+[Screenshot notes](docs/screenshots/README.md)
+
+## Capabilities
+
+| Workflow | Result |
+|---|---|
+| Choose a track | Navigate aptitude, DBMS and technical roadmap material. |
+| Practice in the browser | Use topic-specific exercise pages and interactions. |
+| Manage access | Connect browser authentication to the configured Firebase project. |
 
 ## Quick start
 
@@ -20,14 +45,14 @@ python3 -m http.server 8080
 
 Open http://localhost:8080. Configure the Firebase project and authorized domains for the target host. The source is a static learning portal; the previously documented React mock-interview architecture does not describe this repository. Firebase and CDN imports require connectivity.
 
-## How it works
+## Architecture and request flow
 
 1. Open the portal and sign in through the configured Firebase project.
 2. Choose an aptitude, DBMS or roadmap section.
 3. Work through the browser exercises and inspect topic-specific feedback.
 4. Return to the portal to move between learning tracks.
 
-### Design decisions
+### Engineering decisions
 
 Each module is a static page with its own browser behavior. Shared navigation and authentication are handled with browser JavaScript. There is no checked-in React mock-interview backend in this repository; the source layout is the basis for this documentation.
 
